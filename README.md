@@ -110,7 +110,7 @@ This will treat all String attributes from all entities with like.
 #### Like Class Attributes
 ```java
 QuiuiBuilder<User> query = new QuiuiBuilder<User>(entityManager, User.class);
-query.enableLikeFor(Person);
+query.enableLikeFor(Person.class);
 query.create(user);
 
 query.setFirst(0);
