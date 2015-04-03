@@ -16,7 +16,6 @@
 package br.com.quiui;
 
 import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,7 +37,7 @@ import javax.persistence.metamodel.Metamodel;
 @SuppressWarnings("all")
 public abstract class Criteria<T> {
 	
-	ArrayList<Predicate> predicates;
+	Collection<Predicate> predicates;
 	Map<String, Join> joins;
 	EntityManager manager;
 	
@@ -52,7 +51,7 @@ public abstract class Criteria<T> {
 	Root from;
 	
 	public Criteria(EntityManager manager, CriteriaBuilder builder, AbstractQuery query, Root from) {
-		this.predicates = new ArrayList<Predicate>();
+		this.predicates = new HashSet<Predicate>();
 		this.joins = new HashMap<String, Join>();
 		this.manager = manager;
 		this.builder = builder;

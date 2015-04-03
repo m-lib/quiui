@@ -103,15 +103,6 @@ public class QuiuiBuilder<T> {
 		return this;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public QuiuiBuilder<T> equal(String attribute, Comparable<?> value) {
 		select.equal(attribute, value);
 		count.equal(attribute, value);
@@ -157,6 +148,16 @@ public class QuiuiBuilder<T> {
 	public QuiuiBuilder<T> greaterOrEqual(String attribute, Comparable<?> value) {
 		select.greaterOrEqual(attribute, value);
 		count.greaterOrEqual(attribute, value);
+		return this;
+	}
+	
+	public QuiuiBuilder<T> asc(String... attributes) {
+		select.asc(attributes);
+		return this;
+	}
+	
+	public QuiuiBuilder<T> desc(String... attributes) {
+		select.desc(attributes);
 		return this;
 	}
 

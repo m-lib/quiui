@@ -53,6 +53,28 @@ query.create(user);
 query.unique();
 ```
 
+### Ordering
+Ordering a selection is quite simple:
+
+```java
+QuiuiBuilder<Person> query = new QuiuiBuilder<Person>(entityManager, Person.class);
+
+query.desc("age");
+query.asc("name");
+
+query.select();
+```
+
+You can also pass several ordination parameters at once:
+
+```java
+QuiuiBuilder<Person> query = new QuiuiBuilder<Person>(entityManager, Person.class);
+
+query.asc("name", "age", "email");
+
+query.select();
+```
+
 ### Ignoring Attributes:
 Sometimes it may be convenient to ignore certain attributes when generating a query, like for example, the primitives ones:
 
@@ -149,7 +171,6 @@ person.add(pet);
 pet.setOwner(person);
 ```
 The code above will throw Quiui into a endless loop.
-
 
 ## Licence
 Apache License 2.0

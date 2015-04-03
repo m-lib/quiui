@@ -15,24 +15,49 @@
  */
 package br.com.quiui;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 @SuppressWarnings("all")
 public class ExternalCriteria<T> extends Criteria<T> {
-	
+
+	private Collection<Order> ordering;
 	private CriteriaQuery query;
 	
 	public ExternalCriteria(EntityManager manager, CriteriaBuilder builder, CriteriaQuery query, Root from) {
 		super(manager, builder, query, from);
+		this.ordering = new HashSet<Order>();
 		this.query = query;
 	}
 	
 	public CriteriaQuery getQuery() {
 		prepareQuery();
+		
+		for (Order order : ordering) {
+			query.orderBy(order);
+		}
+		
 		return query;
+	}
+	
+	public void asc(String... attributes) {
+		Ordination ordination = Ordination.ASC;
+		for (String attribute : attributes) {
+			ordering.add(ordination.order(builder, from.get(attribute)));
+		}
+	}
+	
+	public void desc(String... attributes) {
+		Ordination ordination = Ordination.DESC;
+		for (String attribute : attributes) {
+			ordering.add(ordination.order(builder, from.get(attribute)));
+		}
 	}
 
 }
