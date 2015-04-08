@@ -15,6 +15,7 @@
  */
 package br.com.quiui;
 
+
 public class Parameter {
 	
 	private final String path;
@@ -23,7 +24,7 @@ public class Parameter {
 	private final Comparable<?> value;
 
 	public Parameter(final String path, final Comparable<?> value) {
-		chain = path.split("\\.");
+		this.chain = path.split("\\.");
 		this.value = value;
 		this.path = path;
 	}
@@ -58,6 +59,16 @@ public class Parameter {
 
 	public void setOperation(Operation operation) {
 		this.operation = operation;
+	}
+	
+	public boolean next(String param) {
+		for (int index = 0; index < chain.length; index++) {
+			if (param.equals(chain[index])) {
+				return (index + 1) < chain.length;
+			}
+		}
+		
+		return false;
 	}
 
 }

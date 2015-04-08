@@ -169,8 +169,6 @@ public abstract class Criteria<T> {
 		for (String name : parameter.getChain()) {
 			Attribute<?,?> attribute = entity.getAttribute(name);
 			if (attribute.isAssociation()) {
-				
-				// create a new join if it doesn't exists
 				if (!containsPath(name)) {
 					joins.put(name, join.join(name));
 				}
@@ -183,8 +181,10 @@ public abstract class Criteria<T> {
 					param.setOperation(parameter.getOperation());
 					parameters.put(name, param);
 					break;
-				} else {
+				} else if (parameter.next(name)) {
 					entity = model.entity(attribute.getJavaType());
+				} else {
+					predicates.add(parameter.getOperation().execute(join, parameter.getValue()));
 				}
 			} else {
 				Path<?> path = join.get(name);
