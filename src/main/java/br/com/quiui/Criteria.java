@@ -63,7 +63,7 @@ public abstract class Criteria<T> {
 		preparePredicates(entity, type, from);
 	}
 	
-	void preparePredicates(Object entity, Class type, From from) throws Exception {
+	private void preparePredicates(Object entity, Class type, From from) throws Exception {
 		EntityType<?> metamodel = manager.getMetamodel().entity(type);
 		for (Attribute attribute : metamodel.getAttributes()) {
 			

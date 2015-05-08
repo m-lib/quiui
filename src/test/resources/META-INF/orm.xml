@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	
+	<description>JPA XML Application</description>
+	<package>br.com.quiui.entities</package>
+	
+	<entity class="br.com.quiui.entities.Person" name="Person">
+		<table name="person"/>
+		<attributes>
+			<id name="code">
+				<generated-value/>
+			</id>
+			<basic name="name">
+				<column name="name"/>
+			</basic>
+			<basic name="email">
+				<column name="email"/>
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.quiui.entities.User" name="User">
+		<table name="user"/>
+		<attributes>
+			<id name="code">
+				<generated-value/>
+			</id>
+			<basic name="login">
+				<column name="login"/>
+			</basic>
+			<basic name="pass">
+				<column name="pass"/>
+			</basic>
+			<basic name="group">
+				<column name="user_group"/>
+			</basic>
+			<one-to-one name="person">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+		</attributes>
+	</entity>
+</entity-mappings>
