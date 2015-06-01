@@ -73,9 +73,12 @@ public abstract class Criteria<T> {
 			if (!isEmpty(attributeValue)) {
 				if (attribute.isAssociation()) {
 					if (attribute.isCollection()) {
-						Join path = from.join(attribute.getName());
-						joins.put(attribute.getName(), path);
 						Collection collection = Collection.class.cast(attributeValue);
+						
+						if (!collection.isEmpty()) {
+							Join path = from.join(attribute.getName());
+							joins.put(attribute.getName(), path);
+						}
 						
 						for (Object value : collection) {
 							Subquery subquery = query.subquery(value.getClass());
@@ -273,7 +276,7 @@ public abstract class Criteria<T> {
 	}
 	
 	public void like(String attribute, String pattern) {
-		Parameter parameter = new Parameter(attribute, pattern);
+		Parameter parameter = new Parameter(attribute, likeConcatenation(pattern));
 		Operation operation = OperationFactory.like(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
@@ -281,7 +284,7 @@ public abstract class Criteria<T> {
 	
 	public void notLike(String attribute, String pattern) {
 		Operation operation = OperationFactory.notLike(builder);
-		Parameter parameter = new Parameter(attribute, pattern);
+		Parameter parameter = new Parameter(attribute, likeConcatenation(pattern));
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
