@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public class Parameters {
 	
 	private Map<String, Collection<Parameter>> parameters;

@@ -18,8 +18,8 @@ package br.com.quiui;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 
-public interface Operation {
+public interface Operation<T> {
 
-	Predicate execute(Path<?> path, Comparable<?> value);
+	Predicate execute(Path<?> path, T value);
 
 }

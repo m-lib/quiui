@@ -103,13 +103,13 @@ public class QuiuiBuilder<T> {
 		return this;
 	}
 	
-	public QuiuiBuilder<T> equal(String attribute, Comparable<?> value) {
+	public QuiuiBuilder<T> equal(String attribute, Object value) {
 		select.equal(attribute, value);
 		count.equal(attribute, value);
 		return this;
 	}
 
-	public QuiuiBuilder<T> notEqual(String attribute, Comparable<?> value) {
+	public QuiuiBuilder<T> notEqual(String attribute, Object value) {
 		select.notEqual(attribute, value);
 		count.notEqual(attribute, value);
 		return this;

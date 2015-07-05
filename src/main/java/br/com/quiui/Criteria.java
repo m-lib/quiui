@@ -156,7 +156,7 @@ public abstract class Criteria<T> {
 	}
 	
 	public void ignorePrimitives() {
-		ignore.primitives();
+		ignore.ignorePrimitives();
 	}
 	
 	public Predicate[] getPredicates() {
@@ -233,14 +233,14 @@ public abstract class Criteria<T> {
 		return joins.containsKey(key);
 	}
 	
-	public void equal(String attribute, Comparable<?> value) {
+	public void equal(String attribute, Object value) {
 		Operation operation = OperationFactory.equal(builder);
 		Parameter parameter = new Parameter(attribute, value);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
 	
-	public void notEqual(String attribute, Comparable<?> value) {
+	public void notEqual(String attribute, Object value) {
 		Operation operation = OperationFactory.notEqual(builder);
 		Parameter parameter = new Parameter(attribute, value);
 		parameter.setOperation(operation);
@@ -248,43 +248,43 @@ public abstract class Criteria<T> {
 	}
 	
 	public void greaterThan(String attribute, Comparable<?> value) {
-		Operation operation = OperationFactory.greaterThan(builder);
-		Parameter parameter = new Parameter(attribute, value);
+		Parameter<Comparable> parameter = new Parameter<Comparable>(attribute, value);
+		Operation<Comparable> operation = OperationFactory.greaterThan(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
 	
 	public void lessThan(String attribute, Comparable<?> value) {
-		Operation operation = OperationFactory.lessThan(builder);
-		Parameter parameter = new Parameter(attribute, value);
+		Parameter<Comparable> parameter = new Parameter<Comparable>(attribute, value);
+		Operation<Comparable> operation = OperationFactory.lessThan(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
 	
 	public void lessOrEqual(String attribute, Comparable<?> value) {
-		Operation operation = OperationFactory.lessOrEqual(builder);
-		Parameter parameter = new Parameter(attribute, value);
+		Parameter<Comparable> parameter = new Parameter<Comparable>(attribute, value);
+		Operation<Comparable> operation = OperationFactory.lessOrEqual(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
 	
 	public void greaterOrEqual(String attribute, Comparable<?> value) {
-		Operation operation = OperationFactory.greaterOrEqual(builder);
-		Parameter parameter = new Parameter(attribute, value);
+		Parameter<Comparable> parameter = new Parameter<Comparable>(attribute, value);
+		Operation<Comparable> operation = OperationFactory.greaterOrEqual(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
 	
 	public void like(String attribute, String pattern) {
-		Parameter parameter = new Parameter(attribute, likeConcatenation(pattern));
-		Operation operation = OperationFactory.like(builder);
+		Parameter<String> parameter = new Parameter<String>(attribute, likeConcatenation(pattern));
+		Operation<String> operation = OperationFactory.like(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}
 	
 	public void notLike(String attribute, String pattern) {
-		Operation operation = OperationFactory.notLike(builder);
-		Parameter parameter = new Parameter(attribute, likeConcatenation(pattern));
+		Parameter<String> parameter = new Parameter<String>(attribute, likeConcatenation(pattern));
+		Operation<String> operation = OperationFactory.notLike(builder);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}

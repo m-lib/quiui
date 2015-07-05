@@ -24,7 +24,7 @@ public class OperationFactory {
 	
 	public static Operation equal(final CriteriaBuilder builder) {
 		return new Operation() {
-			public Predicate execute(Path path, Comparable value) {
+			public Predicate execute(Path path, Object value) {
 				return builder.equal(path, value);
 			}
 		};
@@ -32,14 +32,14 @@ public class OperationFactory {
 	
 	public static Operation notEqual(final CriteriaBuilder builder) {
 		return new Operation() {
-			public Predicate execute(Path path, Comparable value) {
+			public Predicate execute(Path path, Object value) {
 				return builder.notEqual(path, value);
 			}
 		};
 	}
 	
 	public static Operation greaterThan(final CriteriaBuilder builder) {
-		return new Operation() {
+		return new Operation<Comparable>() {
 			public Predicate execute(Path path, Comparable value) {
 				return builder.greaterThan(path, value);
 			}
@@ -47,7 +47,7 @@ public class OperationFactory {
 	}
 	
 	public static Operation lessThan(final CriteriaBuilder builder) {
-		return new Operation() {
+		return new Operation<Comparable>() {
 			public Predicate execute(Path path, Comparable value) {
 				return builder.lessThan(path, value);
 			}
@@ -55,7 +55,7 @@ public class OperationFactory {
 	}
 	
 	public static Operation lessOrEqual(final CriteriaBuilder builder) {
-		return new Operation() {
+		return new Operation<Comparable>() {
 			public Predicate execute(Path path, Comparable value) {
 				return builder.lessThanOrEqualTo(path, value);
 			}
@@ -63,7 +63,7 @@ public class OperationFactory {
 	}
 	
 	public static Operation greaterOrEqual(final CriteriaBuilder builder) {
-		return new Operation() {
+		return new Operation<Comparable>() {
 			public Predicate execute(Path path, Comparable value) {
 				return builder.greaterThanOrEqualTo(path, value);
 			}
@@ -71,17 +71,17 @@ public class OperationFactory {
 	}
 	
 	public static Operation like(final CriteriaBuilder builder) {
-		return new Operation() {
-			public Predicate execute(Path path, Comparable value) {
-				return builder.like(path, value.toString());
+		return new Operation<String>() {
+			public Predicate execute(Path path, String value) {
+				return builder.like(path, value);
 			}
 		};
 	}
 	
 	public static Operation notLike(final CriteriaBuilder builder) {
-		return new Operation() {
-			public Predicate execute(Path path, Comparable value) {
-				return builder.notLike(path, value.toString());
+		return new Operation<String>() {
+			public Predicate execute(Path path, String value) {
+				return builder.notLike(path, value);
 			}
 		};
 	}

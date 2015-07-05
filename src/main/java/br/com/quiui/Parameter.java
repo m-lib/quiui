@@ -15,21 +15,21 @@
  */
 package br.com.quiui;
 
-
-public class Parameter {
+@SuppressWarnings("all")
+public class Parameter<T> {
 	
+	private final T value;
 	private final String path;
-	private Operation operation;
 	private final String[] chain;
-	private final Comparable<?> value;
+	private Operation<T> operation;
 
-	public Parameter(final String path, final Comparable<?> value) {
+	public Parameter(final String path, final T value) {
 		this.chain = path.split("\\.");
 		this.value = value;
 		this.path = path;
 	}
 	
-	public Comparable<?> getValue() {
+	public T getValue() {
 		return value;
 	}
 	
@@ -57,7 +57,7 @@ public class Parameter {
 		return operation;
 	}
 
-	public void setOperation(Operation operation) {
+	public void setOperation(Operation<T> operation) {
 		this.operation = operation;
 	}
 	
