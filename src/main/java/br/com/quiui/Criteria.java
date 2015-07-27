@@ -59,8 +59,11 @@ public abstract class Criteria<T> {
 		this.from = from;
 	}
 	
-	public void preparePredicates(T entity, Class type) throws Exception {
-		preparePredicates(entity, type, from);
+	public void preparePredicates(T entity) throws Exception {
+		if (entity != null) {
+			Class<?> type = entity.getClass();
+			preparePredicates(entity, type, from);
+		}
 	}
 	
 	private void preparePredicates(Object entity, Class type, From from) throws Exception {
@@ -88,7 +91,7 @@ public abstract class Criteria<T> {
 							InnerCriteria internal = new InnerCriteria(manager, builder, subquery, root);
 							internal.setLike(like);
 							
-							internal.preparePredicates(value, value.getClass());
+							internal.preparePredicates(value);
 							internals.put(attribute.getName(), internal);
 	                    }
 					} else {

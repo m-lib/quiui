@@ -39,12 +39,13 @@ public class QuiuiBuilder<T> {
 		this.type = type;
 	}
 	
-	public void create(T entity) throws Exception {
-		select.preparePredicates(entity, type);
-		count.preparePredicates(entity, type);
+	public QuiuiBuilder<T> create(T entity) throws Exception {
+		select.setExample(entity);
+		count.setExample(entity);
+		return this;
 	}
 	
-	public Collection<T> select() {
+	public Collection<T> select() throws Exception {
 		TypedQuery<T> query = manager.createQuery(select.getQuery());
 		
 		query.setFirstResult(first);
@@ -53,12 +54,12 @@ public class QuiuiBuilder<T> {
 		return query.getResultList();
 	}
 	
-	public Long count() {
+	public Long count() throws Exception {
 		TypedQuery<Long> query = manager.createQuery(count.getQuery());
 		return query.getSingleResult();
 	}
 	
-	public T unique() {
+	public T unique() throws Exception {
 		TypedQuery<T> query = manager.createQuery(select.getQuery());
 		return query.getSingleResult();
 	}

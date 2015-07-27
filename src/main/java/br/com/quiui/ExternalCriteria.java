@@ -29,6 +29,7 @@ public class ExternalCriteria<T> extends Criteria<T> {
 
 	private Collection<Order> ordering;
 	private CriteriaQuery query;
+	private T example;
 	
 	public ExternalCriteria(EntityManager manager, CriteriaBuilder builder, CriteriaQuery query, Root from) {
 		super(manager, builder, query, from);
@@ -36,7 +37,28 @@ public class ExternalCriteria<T> extends Criteria<T> {
 		this.query = query;
 	}
 	
-	public CriteriaQuery getQuery() {
+	public void setExample(T example) { 
+		this.example = example;
+	}
+	
+	public void asc(String... attributes) {
+		Ordination ordination;
+		ordination = Ordination.ASC;
+		for (String attribute : attributes) {
+			ordering.add(ordination.order(builder, from.get(attribute)));
+		}
+	}
+	
+	public void desc(String... attributes) {
+		Ordination ordination;
+		ordination = Ordination.DESC;
+		for (String attribute : attributes) {
+			ordering.add(ordination.order(builder, from.get(attribute)));
+		}
+	}
+	
+	public CriteriaQuery getQuery() throws Exception {
+		preparePredicates(example);
 		prepareQuery();
 		
 		for (Order order : ordering) {
@@ -44,20 +66,6 @@ public class ExternalCriteria<T> extends Criteria<T> {
 		}
 		
 		return query;
-	}
-	
-	public void asc(String... attributes) {
-		Ordination ordination = Ordination.ASC;
-		for (String attribute : attributes) {
-			ordering.add(ordination.order(builder, from.get(attribute)));
-		}
-	}
-	
-	public void desc(String... attributes) {
-		Ordination ordination = Ordination.DESC;
-		for (String attribute : attributes) {
-			ordering.add(ordination.order(builder, from.get(attribute)));
-		}
 	}
 
 }
