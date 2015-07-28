@@ -32,10 +32,6 @@ public class Parameter<T> {
 	public T getValue() {
 		return value;
 	}
-	
-	public String getPath(int index) {
-		return chain[index];
-	}
 
 	public String getPath() {
 		return path;
@@ -44,10 +40,6 @@ public class Parameter<T> {
 	public int getChainSize() {
 		return chain.length;
 	}
-	
-	public String remove(String value) {
-		return path.substring(path.indexOf(value) + value.length() + 1);
-	}
 
 	public String[] getChain() {
 		return chain;
@@ -55,6 +47,14 @@ public class Parameter<T> {
 
 	public Operation getOperation() {
 		return operation;
+	}
+	
+	public String getPath(int index) {
+		return chain[index];
+	}
+	
+	public String remove(String value) {
+		return path.substring(path.indexOf(value) + value.length() + 1);
 	}
 
 	public void setOperation(Operation<T> operation) {

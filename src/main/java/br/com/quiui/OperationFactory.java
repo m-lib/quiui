@@ -25,7 +25,11 @@ public class OperationFactory {
 	public static Operation equal(final CriteriaBuilder builder) {
 		return new Operation() {
 			public Predicate execute(Path path, Object value) {
-				return builder.equal(path, value);
+				if (value == null) {
+					return builder.isNull(path);
+				} else {
+					return builder.equal(path, value);
+				}
 			}
 		};
 	}
@@ -33,7 +37,11 @@ public class OperationFactory {
 	public static Operation notEqual(final CriteriaBuilder builder) {
 		return new Operation() {
 			public Predicate execute(Path path, Object value) {
-				return builder.notEqual(path, value);
+				if (value == null) {
+					return builder.isNotNull(path);
+				} else {
+					return builder.notEqual(path, value);
+				}
 			}
 		};
 	}
