@@ -21,8 +21,12 @@ import java.util.HashSet;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 @SuppressWarnings("all")
 public class ExternalCriteria<T> extends Criteria<T> {
@@ -42,18 +46,40 @@ public class ExternalCriteria<T> extends Criteria<T> {
 	}
 	
 	public void asc(String... attributes) {
-		Ordination ordination;
-		ordination = Ordination.ASC;
+		Ordination ordination = Ordination.ASC;
 		for (String attribute : attributes) {
-			ordering.add(ordination.order(builder, from.get(attribute)));
+			Metamodel model = manager.getMetamodel();
+			EntityType<?> entity = from.getModel();
+			From<?,?> join = from;
+
+			for (String name : attribute.split("\\.")) {
+				Attribute<?,?> attr = entity.getAttribute(name);
+				if (attr.isAssociation()) {
+					entity = model.entity(attr.getJavaType());
+					join = join.join(name);
+				}
+				attribute = name;
+			}
+			ordering.add(ordination.order(builder, join.get(attribute)));
 		}
 	}
 	
 	public void desc(String... attributes) {
-		Ordination ordination;
-		ordination = Ordination.DESC;
+		Ordination ordination = Ordination.DESC;
 		for (String attribute : attributes) {
-			ordering.add(ordination.order(builder, from.get(attribute)));
+			Metamodel model = manager.getMetamodel();
+			EntityType<?> entity = from.getModel();
+			From<?,?> join = from;
+
+			for (String name : attribute.split("\\.")) {
+				Attribute<?,?> attr = entity.getAttribute(name);
+				if (attr.isAssociation()) {
+					entity = model.entity(attr.getJavaType());
+					join = join.join(name);
+				}
+				attribute = name;
+			}
+			ordering.add(ordination.order(builder, join.get(attribute)));
 		}
 	}
 	
