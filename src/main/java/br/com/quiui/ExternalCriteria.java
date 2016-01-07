@@ -15,8 +15,8 @@
  */
 package br.com.quiui;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -35,10 +35,10 @@ public class ExternalCriteria<T> extends Criteria<T> {
 	private CriteriaQuery query;
 	private T example;
 	
-	public ExternalCriteria(EntityManager manager, CriteriaBuilder builder, CriteriaQuery query, Root from) {
-		super(manager, builder, query, from);
-		this.ordering = new HashSet<Order>();
-		this.query = query;
+	public ExternalCriteria(EntityManager manager, CriteriaBuilder builder, CriteriaQuery criteria, Root from) {
+		super(manager, builder, criteria, from);
+		this.ordering = new ArrayList<Order>();
+		this.query = criteria;
 	}
 	
 	public void setExample(T example) { 
@@ -87,8 +87,8 @@ public class ExternalCriteria<T> extends Criteria<T> {
 		preparePredicates(example);
 		prepareQuery();
 		
-		for (Order order : ordering) {
-			query.orderBy(order);
+		if (ordering.isEmpty() == false) {
+			query.orderBy(ordering.toArray(new Order[0]));
 		}
 		
 		return query;

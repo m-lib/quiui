@@ -73,6 +73,12 @@ public abstract class Criteria<T> {
 			PropertyDescriptor descriptor = new PropertyDescriptor(attribute.getName(), type);
 			Object attributeValue = descriptor.getReadMethod().invoke(entity);
 			
+			if (ignore.primitives() && attribute.getJavaType().isPrimitive()) {
+				continue;
+			} else if (ignore.contains(type, attribute.getName())) {
+				continue;
+			}
+			
 			if (!isEmpty(attributeValue)) {
 				if (attribute.isAssociation()) {
 					if (attribute.isCollection()) {
@@ -100,12 +106,6 @@ public abstract class Criteria<T> {
 						preparePredicates(attributeValue, attributeValue.getClass(), join);
 					}
 				} else {
-					if (ignore.primitives() && attribute.getJavaType().isPrimitive()) {
-						continue;
-					} else if (ignore.contains(type, attribute.getName())) {
-						continue;
-					}
-					
 					if (isLike(attribute)) {
 						predicates.add(builder.like(from.get(attribute.getName()), likeConcatenation(attributeValue.toString())));
 					} else {
