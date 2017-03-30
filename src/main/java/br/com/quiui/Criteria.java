@@ -15,24 +15,28 @@
  */
 package br.com.quiui;
 
-import java.beans.PropertyDescriptor;
-import java.util.Collection;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Collection;
+
+import java.beans.PropertyDescriptor;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.AbstractQuery;
-import javax.persistence.criteria.CriteriaBuilder;
+
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Subquery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.AbstractQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+
+import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 
 @SuppressWarnings("all")
 public abstract class Criteria<T> {
@@ -43,7 +47,7 @@ public abstract class Criteria<T> {
 	
 	Parameters parameters = new Parameters();
 	Internals internals = new Internals();
-	Ignore ignore = new Ignore();
+	//Ignore ignore = new Ignore();
 	Like like = new Like();
 	
 	CriteriaBuilder builder;
@@ -71,45 +75,44 @@ public abstract class Criteria<T> {
 		for (Attribute attribute : metamodel.getAttributes()) {
 			
 			PropertyDescriptor descriptor = new PropertyDescriptor(attribute.getName(), type);
-			Object attributeValue = descriptor.getReadMethod().invoke(entity);
+			Object value = descriptor.getReadMethod().invoke(entity);
 			
-			if (ignore.primitives() && attribute.getJavaType().isPrimitive()) {
-				continue;
-			} else if (ignore.contains(type, attribute.getName())) {
+			if (Ignore.contains(type, attribute.getName()) || (Ignore.primitives() && attribute.getJavaType().isPrimitive())) {
 				continue;
 			}
 			
-			if (!isEmpty(attributeValue)) {
+			if (!isEmpty(value)) {
 				if (attribute.isAssociation()) {
 					if (attribute.isCollection()) {
-						Collection collection = Collection.class.cast(attributeValue);
+						Collection collection = (Collection) value;
 						
 						if (!collection.isEmpty()) {
 							Join path = from.join(attribute.getName());
 							joins.put(attribute.getName(), path);
-						}
 						
-						for (Object value : collection) {
-							Subquery subquery = query.subquery(value.getClass());
-							Root root = subquery.from(value.getClass());
-							subquery.select(root);
-							
-							InnerCriteria internal = new InnerCriteria(manager, builder, subquery, root);
-							internal.setLike(like);
-							
-							internal.preparePredicates(value);
-							internals.put(attribute.getName(), internal);
-	                    }
+							for (Object item : collection) {
+								Subquery subquery = query.subquery(item.getClass());
+								Root root = subquery.from(item.getClass());
+								subquery.select(root).distinct(true);
+
+								InnerCriteria internal = new InnerCriteria(manager, builder, subquery, root);
+								internal.setLike(like);
+
+								internal.preparePredicates(item);
+								internals.put(attribute.getName(), internal);
+							}
+						}
 					} else {
 						Join join = from.join(attribute.getName());
+						
 						joins.put(attribute.getName(), join);
-						preparePredicates(attributeValue, attributeValue.getClass(), join);
+						preparePredicates(value, value.getClass(), join);
 					}
 				} else {
 					if (isLike(attribute)) {
-						predicates.add(builder.like(from.get(attribute.getName()), likeConcatenation(attributeValue.toString())));
+						predicates.add(builder.like(from.get(attribute.getName()), likeConcatenation(value.toString())));
 					} else {
-						predicates.add(builder.equal(from.get(attribute.getName()), attributeValue));
+						predicates.add(builder.equal(from.get(attribute.getName()), value));
 					}
 				}
 			}
@@ -155,11 +158,11 @@ public abstract class Criteria<T> {
 	}
 	
 	public boolean ignoreAttribute(Class<?> key, String attribute) throws Exception {
-		return ignore.put(key, attribute);
+		return Ignore.include(key, attribute);
 	}
 	
 	public void ignorePrimitives() {
-		ignore.ignorePrimitives();
+		Ignore.includePrimitives();
 	}
 	
 	public Predicate[] getPredicates() {
@@ -170,31 +173,35 @@ public abstract class Criteria<T> {
 	public void execute(Parameter parameter) {
 		Metamodel model = manager.getMetamodel();
 		EntityType<?> entity = from.getModel();
-		
 		From<?,?> join = from;
+		
 		for (String name : parameter.getChain()) {
 			Attribute<?,?> attribute = entity.getAttribute(name);
 			if (attribute.isAssociation()) {
-				if (!containsPath(name)) {
-					joins.put(name, join.join(name));
-				}
-				
-				join = joins.get(name);
-				
-				if (attribute.isCollection()) {
-					String path = parameter.getPath().substring(parameter.getPath().indexOf(name) + name.length() + 1);
-					Parameter param = new Parameter(path, parameter.getValue());
-					param.setOperation(parameter.getOperation());
-					parameters.put(name, param);
+				if (attribute.isCollection() && parameter.isMemberOperation()) {
+					predicates.add(parameter.getOperation().execute(join.join(name, JoinType.LEFT), parameter.getValue()));
 					break;
-				} else if (parameter.next(name)) {
-					entity = model.entity(attribute.getJavaType());
 				} else {
-					predicates.add(parameter.getOperation().execute(join, parameter.getValue()));
+					if (!containsPath(name)) {
+						joins.put(name, join.join(name));
+					}
+
+					join = joins.get(name);
+
+					if (attribute.isCollection()) {
+						String path = parameter.getPath().substring(parameter.getPath().indexOf(name) + name.length() + 1);
+						Parameter param = new Parameter(path, parameter.getValue());
+						param.setOperation(parameter.getOperation());
+						parameters.put(name, param);
+						break;
+					} else if (parameter.next(name)) {
+						entity = model.entity(attribute.getJavaType());
+					} else {
+						predicates.add(parameter.getOperation().execute(join, parameter.getValue()));
+					}
 				}
 			} else {
-				Path<?> path = join.get(name);
-				predicates.add(parameter.getOperation().execute(path, parameter.getValue()));
+				predicates.add(parameter.getOperation().execute(join.get(name), parameter.getValue()));
 			}
 		}
 	}
@@ -208,13 +215,15 @@ public abstract class Criteria<T> {
 					for (InnerCriteria<?> criteria : internals.getCriterias(key)) {
 						criteria.execute(parameter);
 					}
-				} else {
+				} else if (!parameter.isMemberOperation()) {
 					Path path = joins.get(key);
+					
 					Subquery subquery = query.subquery(path.getJavaType());
 					Root root = subquery.from(path.getJavaType());
-					subquery.select(root);
+					subquery.select(root).distinct(true);
 					
 					InnerCriteria internal = new InnerCriteria(manager, builder, subquery, root);
+					
 					internal.execute(parameter);
 					predicates.add(path.in(internal.getQuery()));
 				}
@@ -288,6 +297,20 @@ public abstract class Criteria<T> {
 	public void notLike(String attribute, String pattern) {
 		Parameter<String> parameter = new Parameter<String>(attribute, likeConcatenation(pattern));
 		Operation<String> operation = OperationFactory.notLike(builder);
+		parameter.setOperation(operation);
+		execute(parameter);
+	}
+	
+	public void isMember(String attribute, Collection value) {
+		Operation operation = OperationFactory.isMember(builder);
+		Parameter parameter = new Parameter(attribute, value);
+		parameter.setOperation(operation);
+		execute(parameter);
+	}
+	
+	public void isMemberOrEmpty(String attribute, Collection value) {
+		Operation operation = OperationFactory.isMemberOrEmpty(builder);
+		Parameter parameter = new Parameter(attribute, value);
 		parameter.setOperation(operation);
 		execute(parameter);
 	}

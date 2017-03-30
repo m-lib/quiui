@@ -19,14 +19,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+
 import javax.persistence.criteria.From;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+
+import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 
 @SuppressWarnings("all")
 public class ExternalCriteria<T> extends Criteria<T> {

@@ -20,6 +20,7 @@
 			<basic name="email">
 				<column name="email"/>
 			</basic>
+			<one-to-many name="users" target-entity="br.com.quiui.entities.User" mapped-by="person"/>
 		</attributes>
 	</entity>
 	
@@ -43,6 +44,27 @@
 					<cascade-all/>
 				</cascade>
 			</one-to-one>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.quiui.entities.Activity" name="Activity" access="FIELD">
+		<table name="activity"/>
+		<attributes>
+			<id name="code">
+				<generated-value/>
+			</id>
+			<basic name="name"/>
+			<basic name="value"/>
+			<basic name="begin"/>
+			<basic name="finish"/>
+			<basic name="description"/>
+			<element-collection name="groups" target-class="br.com.quiui.entities.UserGroup" fetch="EAGER">
+				<column name="user_group"/>
+				<enumerated>STRING</enumerated>
+				<collection-table name="activity_group">
+					<join-column name="activity_code" unique="false"/>
+				</collection-table>
+			</element-collection>
 		</attributes>
 	</entity>
 </entity-mappings>

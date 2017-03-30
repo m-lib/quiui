@@ -15,10 +15,10 @@
  */
 package br.com.quiui;
 
-import java.util.Collection;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Collection;
 
 @SuppressWarnings("all")
 public class Parameters {

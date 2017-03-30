@@ -15,21 +15,28 @@
  */
 package br.com.quiui;
 
-import java.util.Collection;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Collection;
 
-public class Ignore {
+public final class Ignore {
 	
-	private boolean primitives;
-	private Map<Class<?>, Collection<String>> map;
+	private static boolean primitives;
+	private static Map<Class<?>, Collection<String>> map;
 	
-	public Ignore() {
-		map = new HashMap<Class<?>, Collection<String>>();
+	private Ignore() {
+		//map = new HashMap<Class<?>, Collection<String>>();
 	}
 	
-	public boolean put(Class<?> key, String attribute) throws Exception {
+	public static boolean clean() {
+		primitives = Boolean.FALSE;
+		map = new HashMap();
+		
+		return true;
+	}
+	
+	public static boolean include(Class<?> key, String attribute) throws Exception {
 		key.getDeclaredField(attribute);
 		
 		if (!map.containsKey(key)) {
@@ -40,7 +47,7 @@ public class Ignore {
 		return attributes.add(attribute);
 	}
 	
-	public boolean contains(Class<?> key, String attribute) {
+	public static boolean contains(Class<?> key, String attribute) {
 		if (map.containsKey(key)) {
 			return map.get(key).contains(attribute);
 		}
@@ -48,11 +55,11 @@ public class Ignore {
 		return false;
 	}
 	
-	public void ignorePrimitives() {
-		primitives = true;
+	public static boolean includePrimitives() {
+		return primitives = true;
 	}
 	
-	public boolean primitives() {
+	public static boolean primitives() {
 		return primitives;
 	}
 

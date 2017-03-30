@@ -15,11 +15,11 @@
  */
 package br.com.quiui;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Collection;
 
 public class Like {
 	

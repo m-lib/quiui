@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package br.com.quiui;
 
-package br.com.quiui.entities;
-
-public enum UserGroup {
+public enum OperationType {
 	
-	ADMIN, GUEST;
-	
-	private UserGroup() {
-
-	}
-
+	LIKE,
+	EQUAL,
+	NOT_LIKE,
+	NOT_EQUAL,
+	IS_MEMBER,
+	LESS_THAN,
+	GREATER_THAN,
+	LESS_OR_EQUAL,
+	GREATER_OR_EQUAL,
+	IS_MEMBER_OR_EMPTY;
 }

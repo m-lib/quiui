@@ -70,5 +70,9 @@ public class Parameter<T> {
 		
 		return false;
 	}
+	
+	public boolean isMemberOperation() {
+		return operation.getType().equals(OperationType.IS_MEMBER) || operation.getType().equals(OperationType.IS_MEMBER_OR_EMPTY);
+	}
 
 }

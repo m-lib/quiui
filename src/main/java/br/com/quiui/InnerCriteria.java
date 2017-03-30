@@ -16,9 +16,10 @@
 package br.com.quiui;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
+
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @SuppressWarnings("all")
 public class InnerCriteria<T> extends Criteria<T> {
