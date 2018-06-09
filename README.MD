@@ -173,4 +173,4 @@ pet.setOwner(person);
 The code above will throw Quiui into a endless loop.
 
 ## Licence
-Apache License 2.0
+MIT License
