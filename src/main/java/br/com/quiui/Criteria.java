@@ -26,7 +26,7 @@ import javax.persistence.metamodel.EntityType;
 @SuppressWarnings("all")
 public abstract class Criteria<T> {
 
-	Collection<Predicate> predicates;
+	public Collection<Predicate> predicates;
 	Map<String, Join> joins;
 	EntityManager manager;
 
@@ -34,9 +34,9 @@ public abstract class Criteria<T> {
 	Internals internals = new Internals();
 	Like like = new Like();
 
-	CriteriaBuilder builder;
+	public CriteriaBuilder builder;
 	AbstractQuery query;
-	Root from;
+	public Root from;
 
 	public Criteria(EntityManager manager, CriteriaBuilder builder, AbstractQuery query, Root from) {
 		this.predicates = new HashSet<Predicate>();

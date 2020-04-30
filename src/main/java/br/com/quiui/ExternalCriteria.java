@@ -19,7 +19,7 @@ import javax.persistence.metamodel.EntityType;
 public class ExternalCriteria<T> extends Criteria<T> {
 
 	private Collection<Order> ordering;
-	private CriteriaQuery query;
+	public CriteriaQuery query;
 	private T example;
 
 	public ExternalCriteria(EntityManager manager, CriteriaBuilder builder, CriteriaQuery criteria, Root from) {

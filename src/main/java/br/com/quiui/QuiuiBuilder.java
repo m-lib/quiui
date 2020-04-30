@@ -8,8 +8,8 @@ import javax.persistence.EntityManager;
 @SuppressWarnings("all")
 public class QuiuiBuilder<T> {
 
-	private ExternalCriteria<T> selection;
-	private ExternalCriteria<T> counting;
+	public ExternalCriteria<T> selection;
+	public ExternalCriteria<T> counting;
 	private EntityManager manager;
 	private Class<T> type;
 
