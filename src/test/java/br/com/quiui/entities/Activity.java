@@ -15,7 +15,7 @@ public class Activity implements Serializable {
 
 	@Getter @Setter
 	private long code;
-	
+
 	@Getter @Setter
 	private String name;
 	@Getter @Setter
@@ -28,7 +28,7 @@ public class Activity implements Serializable {
 	private String description;
 	@Getter @Setter
 	private Set<UserGroup> groups;
-	
+
 	public Activity() {
 		groups = new HashSet();
 	}

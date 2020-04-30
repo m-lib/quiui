@@ -1,12 +1,12 @@
 /*
  * Copyright 2015
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,50 +22,50 @@ import javax.persistence.EntityManager;
 
 @SuppressWarnings("all")
 public class QuiuiBuilder<T> {
-	
+
 	private ExternalCriteria<T> selection;
 	private ExternalCriteria<T> counting;
 	private EntityManager manager;
 	private Class<T> type;
-	
+
 	private int first;
 	private int max = Integer.MAX_VALUE;
-	
+
 	public QuiuiBuilder(EntityManager manager, Class<T> type) {
 		this.selection = CriteriaFactory.createCriteria(manager, type);
 		this.counting = CriteriaFactory.createCounter(manager, type);
-		
+
 		this.manager = manager;
 		this.type = type;
 
 		Ignore.clean();
 	}
-	
+
 	public QuiuiBuilder<T> create(T entity) throws Exception {
 		selection.setExample(entity);
 		counting.setExample(entity);
 		return this;
 	}
-	
+
 	public Collection<T> select() throws Exception {
 		TypedQuery<T> query = manager.createQuery(selection.getQuery());
-		
+
 		query.setFirstResult(first);
 		query.setMaxResults(max);
-		
+
 		return query.getResultList();
 	}
-	
+
 	public Long count() throws Exception {
 		TypedQuery<Long> query = manager.createQuery(counting.getQuery());
 		return query.getSingleResult();
 	}
-	
+
 	public T unique() throws Exception {
 		TypedQuery<T> query = manager.createQuery(selection.getQuery());
 		return query.getSingleResult();
 	}
-	
+
 	public QuiuiBuilder<T> setMax(int max) {
 		this.max = max;
 		return this;
@@ -81,31 +81,31 @@ public class QuiuiBuilder<T> {
 		counting.ignoreAttribute(key, attribute);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> ignorePrimitives() {
 		selection.ignorePrimitives();
 		counting.ignorePrimitives();
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> enableLike() {
 		selection.enableLike();
 		counting.enableLike();
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> enableLikeFor(Class<?> entity) {
 		selection.enableLikeFor(entity);
 		counting.enableLikeFor(entity);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> enableLikeForAttribute(Class<?> key, String attribute) throws Exception {
 		selection.enableLikeForAttribute(key, attribute);
 		counting.enableLikeForAttribute(key, attribute);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> equal(String attribute, Object value) {
 		selection.equal(attribute, value);
 		counting.equal(attribute, value);
@@ -153,23 +153,23 @@ public class QuiuiBuilder<T> {
 		counting.greaterOrEqual(attribute, value);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> asc(String... attributes) {
 		selection.asc(attributes);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> desc(String... attributes) {
 		selection.desc(attributes);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> isMember(String attribute, Collection value) {
 		selection.isMember(attribute, value);
 		counting.isMember(attribute, value);
 		return this;
 	}
-	
+
 	public QuiuiBuilder<T> isMemberOrEmpty(String attribute, Collection value) {
 		selection.isMemberOrEmpty(attribute, value);
 		counting.isMemberOrEmpty(attribute, value);

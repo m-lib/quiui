@@ -1,12 +1,12 @@
 /*
  * Copyright 2015
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,17 +36,17 @@ public class ExternalCriteria<T> extends Criteria<T> {
 	private Collection<Order> ordering;
 	private CriteriaQuery query;
 	private T example;
-	
+
 	public ExternalCriteria(EntityManager manager, CriteriaBuilder builder, CriteriaQuery criteria, Root from) {
 		super(manager, builder, criteria, from);
 		this.ordering = new ArrayList<Order>();
 		this.query = criteria;
 	}
-	
-	public void setExample(T example) { 
+
+	public void setExample(T example) {
 		this.example = example;
 	}
-	
+
 	public void asc(String... attributes) {
 		Ordination ordination = Ordination.ASC;
 		for (String attribute : attributes) {
@@ -65,7 +65,7 @@ public class ExternalCriteria<T> extends Criteria<T> {
 			ordering.add(ordination.order(builder, join.get(attribute)));
 		}
 	}
-	
+
 	public void desc(String... attributes) {
 		Ordination ordination = Ordination.DESC;
 		for (String attribute : attributes) {
@@ -84,15 +84,15 @@ public class ExternalCriteria<T> extends Criteria<T> {
 			ordering.add(ordination.order(builder, join.get(attribute)));
 		}
 	}
-	
+
 	public CriteriaQuery getQuery() throws Exception {
 		preparePredicates(example);
 		prepareQuery();
-		
+
 		if (ordering.isEmpty() == false) {
 			query.orderBy(ordering.toArray(new Order[0]));
 		}
-		
+
 		return query;
 	}
 

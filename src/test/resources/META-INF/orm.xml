@@ -4,10 +4,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
 	version="2.0">
-	
+
 	<description>JPA XML Application</description>
 	<package>br.com.quiui.entities</package>
-	
+
 	<entity class="br.com.quiui.entities.Person" name="Person">
 		<table name="person"/>
 		<attributes>
@@ -23,7 +23,7 @@
 			<one-to-many name="users" target-entity="br.com.quiui.entities.User" mapped-by="person"/>
 		</attributes>
 	</entity>
-	
+
 	<entity class="br.com.quiui.entities.User" name="User">
 		<table name="user"/>
 		<attributes>
@@ -46,7 +46,7 @@
 			</one-to-one>
 		</attributes>
 	</entity>
-	
+
 	<entity class="br.com.quiui.entities.Activity" name="Activity" access="FIELD">
 		<table name="activity"/>
 		<attributes>
