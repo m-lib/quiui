@@ -26,12 +26,12 @@ query.select();
 Which will generate something like this:
 
 ```sql
-SELECT * FROM 
-	user 
-INNER JOIN 
-	person ON user.person_idPerson = person.idPerson 
-WHERE 
-	person.name = "Bill" 
+SELECT * FROM
+	user
+INNER JOIN
+	person ON user.person_idPerson = person.idPerson
+WHERE
+	person.name = "Bill"
 LIMIT 10;
 ```
 
@@ -173,4 +173,4 @@ pet.setOwner(person);
 The code above will throw Quiui into a endless loop.
 
 ## Licence
-Apache License 2.0
+MIT License
