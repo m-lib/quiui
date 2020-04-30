@@ -108,7 +108,7 @@ This could be done as follows:
 
 ```java
 QuiuiBuilder<User> query = new QuiuiBuilder<User>(entityManager, User.class);
-query.notEqual("group", Group.ADMIN);
+query.unequal("group", Group.ADMIN);
 query.create(user);
 query.select();
 ```
