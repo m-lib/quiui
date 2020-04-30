@@ -1,25 +1,25 @@
 package br.com.quiui;
 
-import br.com.quiui.entities.Activity;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import br.com.quiui.entities.User;
 import br.com.quiui.entities.Person;
+import br.com.quiui.entities.Activity;
 import br.com.quiui.entities.UserGroup;
-import java.util.ArrayList;
+
+import javax.persistence.Persistence;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import static org.hamcrest.CoreMatchers.is;
-
-import javax.persistence.Persistence;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 public class Basic {
 
