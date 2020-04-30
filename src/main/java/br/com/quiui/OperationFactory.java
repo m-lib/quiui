@@ -25,7 +25,7 @@ public class OperationFactory {
 		};
 	}
 
-	public static Operation notEqual(final CriteriaBuilder builder) {
+	public static Operation unequal(final CriteriaBuilder builder) {
 		return new Operation() {
 			public Predicate execute(Path path, Object value) {
 				if (value == null) {

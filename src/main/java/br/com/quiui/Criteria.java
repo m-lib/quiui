@@ -237,8 +237,8 @@ public abstract class Criteria<T> {
 		execute(parameter);
 	}
 
-	public void notEqual(String attribute, Object value) {
-		Operation operation = OperationFactory.notEqual(builder);
+	public void unequal(String attribute, Object value) {
+		Operation operation = OperationFactory.unequal(builder);
 		Parameter parameter = new Parameter(attribute, value);
 		parameter.setOperation(operation);
 		execute(parameter);

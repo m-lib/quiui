@@ -97,9 +97,9 @@ public class QuiuiBuilder<T> {
 		return this;
 	}
 
-	public QuiuiBuilder<T> notEqual(String attribute, Object value) {
-		selection.notEqual(attribute, value);
-		counting.notEqual(attribute, value);
+	public QuiuiBuilder<T> unequal(String attribute, Object value) {
+		selection.unequal(attribute, value);
+		counting.unequal(attribute, value);
 		return this;
 	}
 
