@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.quiui</groupId>
 	<artifactId>quiui</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-DEV</version>
 
 	<properties>
 		<hibernate.version>4.3.8.Final</hibernate.version>
