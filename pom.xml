@@ -4,11 +4,11 @@
 	<groupId>br.com.quiui</groupId>
 	<artifactId>quiui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<properties>
 		<hibernate.version>4.3.8.Final</hibernate.version>
 	</properties>
-	
+
 	<dependencies>
 		<!-- JPA -->
 		<dependency>
@@ -16,7 +16,7 @@
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
         </dependency>
-        
+
         <!-- HSQLDB -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -24,7 +24,7 @@
 			<version>2.2.8</version>
 			<scope>test</scope>
 		</dependency>
-        
+
 		<!-- JUNIT -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -33,14 +33,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- LOMBOK -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.14.8</version>
-			<scope>test</scope>
-		</dependency>
-		
 		<!-- HIBERNATE -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -48,7 +40,7 @@
 			<version>${hibernate.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
@@ -56,7 +48,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
