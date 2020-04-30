@@ -32,7 +32,6 @@ public abstract class Criteria<T> {
 
 	Parameters parameters = new Parameters();
 	Internals internals = new Internals();
-	//Ignore ignore = new Ignore();
 	Like like = new Like();
 
 	CriteriaBuilder builder;

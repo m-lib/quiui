@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Collection;
 
+@SuppressWarnings("all")
 public final class Ignore {
 
 	private static boolean primitives;
 	private static Map<Class<?>, Collection<String>> map;
 
 	private Ignore() {
-		//map = new HashMap<Class<?>, Collection<String>>();
+		//purposely empty
 	}
 
 	public static boolean clean() {
