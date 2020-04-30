@@ -13,7 +13,7 @@ public class CriteriaFactory {
 		CriteriaQuery<T> query = builder.createQuery(type);
 
 		Root<T> from = query.from(type);
-		query.select(from).distinct(true);
+		query.select(from);//.distinct(true);
 		return new ExternalCriteria<T>(manager, builder, query, from);
 	}
 
@@ -22,7 +22,7 @@ public class CriteriaFactory {
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 
 		Root<T> from = query.from(type);
-		query.select(builder.count(from)).distinct(true);
+		query.select(builder.count(from));//.distinct(true);
 		return new ExternalCriteria<T>(manager, builder, query, from);
 	}
 

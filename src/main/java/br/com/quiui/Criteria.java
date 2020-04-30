@@ -78,7 +78,7 @@ public abstract class Criteria<T> {
 							for (Object item : collection) {
 								Subquery subquery = query.subquery(item.getClass());
 								Root root = subquery.from(item.getClass());
-								subquery.select(root).distinct(true);
+								subquery.select(root);//.distinct(true);
 
 								InnerCriteria internal = new InnerCriteria(manager, builder, subquery, root);
 								internal.setLike(like);
@@ -205,7 +205,7 @@ public abstract class Criteria<T> {
 
 					Subquery subquery = query.subquery(path.getJavaType());
 					Root root = subquery.from(path.getJavaType());
-					subquery.select(root).distinct(true);
+					subquery.select(root);//.distinct(true);
 
 					InnerCriteria internal = new InnerCriteria(manager, builder, subquery, root);
 
